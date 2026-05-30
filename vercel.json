@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/messager/:path*",
+      "destination": "https://mctest.d4ua.com/messager/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}

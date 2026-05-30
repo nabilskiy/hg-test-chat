@@ -270,16 +270,10 @@ interface AppContextType {
   setGroupConversations: (convs: GroupConversation[]) => void;
 }
 
-const REMOTE_API_BASE = 'https://mctest.d4ua.com/messager';
-const DEFAULT_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.DEV ? '/messager' : REMOTE_API_BASE);
+const DEFAULT_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/messager';
 
-/** Route cross-origin API calls through the Vite dev proxy to avoid browser CORS blocks. */
-function resolveDevProxyUrl(url: string): string {
-  if (!import.meta.env.DEV) {
-    return url;
-  }
-
+/** Route known API hosts through same-origin proxy (/messager in dev and on Vercel). */
+function resolveProxyUrl(url: string): string {
   if (url.startsWith('/')) {
     return url;
   }
@@ -298,6 +292,7 @@ function resolveDevProxyUrl(url: string): string {
     }
 
     if (
+      import.meta.env.DEV &&
       (parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1') &&
       parsed.port === '8102'
     ) {
@@ -338,7 +333,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const startTime = Date.now();
       const logId = `${Date.now()}-${Math.random()}`;
 
-      let url = resolveDevProxyUrl(`${baseUrl}${endpoint}`);
+      let url = resolveProxyUrl(`${baseUrl}${endpoint}`);
 
       // Add user_id query param for 'none' auth mode
       if (authMode === 'none') {

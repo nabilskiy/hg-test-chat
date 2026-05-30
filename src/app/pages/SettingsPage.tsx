@@ -73,8 +73,8 @@ const SettingsPage: React.FC = () => {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
           />
           <p className="text-xs text-gray-500">
-            Dev default: /messager (proxied to mctest.d4ua.com). Local backend: /local-messager or
-            http://localhost:8102
+            Use /messager (proxied to mctest.d4ua.com on localhost and Vercel). Local backend:
+            /local-messager or http://localhost:8102
           </p>
         </div>
 
